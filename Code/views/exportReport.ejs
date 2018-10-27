@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Employee Basic Report</title>
+</head>
+<body>
+    <%- include('common/header'); %>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Emp ID</td>
+                    <td>Emp Name</td>
+                    <td>Emp Address</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% empData.forEach(function (employee) { %>
+                    <tr>  
+                        <td><%= employee.EmpID %></td>  
+                        <td><%= employee.EmpName %></td>
+                        <td><%= employee.EmpAddress %></td>
+                    </tr>                                   
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

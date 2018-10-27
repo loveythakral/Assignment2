@@ -1,0 +1,5 @@
+npm init
+npm install --save express
+npm install --save mysql
+npm install --save ejs
+npm install --save html-pdf
