@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+        socket.on('news', function (data){
+            const url = window.URL.createObjectURL(new Blob([data.stream]));
+            alert("url is"+url);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.pdf');
+            document.body.appendChild(link);
+            link.click();
+
+            console.log(" message from server = "+data);
+            socket.emit('my other event', { hi: 'server' });
+        });
+     </script>
+    </head>
+  <body>
+    <h1>hello</h1>
+ <body>
+</html>
