@@ -3,18 +3,16 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
-        socket.on('news', function (data){
-            const url = window.URL.createObjectURL(new Blob([data.stream]));
+        socket.on('sendPDF', function (data){
+            console.log(" message from server = "+data);
+            var url = window.URL.createObjectURL(new Blob([data]));
             alert("url is"+url);
-
-            const link = document.createElement('a');
+            link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', 'file.pdf');
             document.body.appendChild(link);
             link.click();
-
-            console.log(" message from server = "+data);
-            socket.emit('my other event', { hi: 'server' });
+            socket.emit('confirmation', "PDF Recieved");
         });
      </script>
     </head>
