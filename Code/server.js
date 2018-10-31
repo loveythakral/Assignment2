@@ -17,13 +17,13 @@ server.listen(3000);
 
 io.on('connection', function(socket){
   console.log("pdfList in socket"+pdfList.length);
-    socket.emit('news', function(data) {
+    socket.emit('sendPDF', function(data) {
     data.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
     //data.send(stream,{binary:true});
     data.send(new Buffer(stream, 'binary'))
     });
 
-  socket.on('my other event', function (data) {
+  socket.on('confirmation', function (data) {
     console.log(data);
   });
 });
