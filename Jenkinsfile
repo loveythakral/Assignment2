@@ -9,6 +9,8 @@ node {
 		git 'https://github.com/loveythakral/Assignment2.git'
 	}
 	stage('Build Image') {
+	    def nodeHome = tool name: 'node', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+	    env.PATH = "${nodeHome}/bin:${env.PATH}"
 		sh 'npm install'
 		sh 'npm run bowerInstall'
 	}
