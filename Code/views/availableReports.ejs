@@ -3,20 +3,22 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
-        socket.on('sendPDF', function (data){
-            console.log(" message from server = "+data);
-            var url = window.URL.createObjectURL(new Blob([data]));
-            alert("url is"+url);
-            link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'file.pdf');
-            document.body.appendChild(link);
-            link.click();
-            socket.emit('confirmation', "PDF Recieved");
+      var pdfChunks = [];
+      socket.on('sendPDF', function(chunk)
+        {
+          pdfChunks.push(chunk);
+          pdf = document.createElement('a');
+          var url = window.URL.createObjectURL(new Blob([chunk],{type: "application/pdf;base64"}));
+          pdf.href = url;
+          pdf.setAttribute('download', 'report.pdf');
+          pdf.style.display = 'none';
+          document.body.appendChild(pdf);
+          pdf.href = url;
+          pdf.click();
         });
      </script>
     </head>
   <body>
-    <h1>hello</h1>
+    <h1>Available Reports</h1>
  <body>
 </html>
