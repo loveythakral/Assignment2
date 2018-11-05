@@ -2,6 +2,20 @@
 <head>
   <title>Employee Basic Report</title>
   <%- include('common/head'); %>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    var shareReport = false;
+    // open socket when transfering report to another user
+    function transferPDF(user_id){
+        shareReport = true;
+        var data = [];
+        // data to be added iteratively
+        data.push(shareReport);
+        data.push(user_id);
+        socket.emit('transferPDF',data);
+    }
+   </script>
 </head>
 <body>
     <%- include('common/header'); %>
@@ -12,15 +26,21 @@
                     <td>Emp ID</td>
                     <td>Emp Name</td>
                     <td>Emp Address</td>
+                    <td>Send Report</td>
                 </tr>
             </thead>
             <tbody>
                 <% empData.forEach(function (employee) { %>
-                    <tr>  
-                        <td><%= employee.EmpID %></td>  
+                    <tr>
+                        <td><%= employee.EmpID %></td>
                         <td><%= employee.EmpName %></td>
                         <td><%= employee.EmpAddress %></td>
-                    </tr>                                   
+                        <td>
+                          <div class="col-md-2 disabled">
+                            <a class="btn btn-primary btn-lg" href="#" role="button" onClick = "transferPDF(<%= employee.EmpID %>)">Share Report</a>
+                        </div>
+                        </td>
+                    </tr>
                 <% }) %>
             </tbody>
         </table>
@@ -31,9 +51,9 @@
                 <input class="btn btn-primary btn-lg" type="submit" value="Export Report">
             </div>
         </form>
-        <form action="/" method="GET">
+        <form action="/TransferPDF" method="GET">
             <div class="col-md-3 disabled">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Send to another User</a>
+                <a class="btn btn-primary btn-lg" href="#" role="button" onClick = "transferPDF()">Send to another User</a>
             </div>
         </form>
     <form action="/exportPDF" method="post">
