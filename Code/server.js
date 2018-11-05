@@ -16,16 +16,19 @@ server.listen(3000);
 
 
 io.on('connection', function(socket){
-  console.log("pdfList in socket"+pdfList.length);
-    socket.emit('sendPDF', function(data) {
-    data.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-    //data.send(stream,{binary:true});
-    data.send(new Buffer(stream, 'binary'))
-    });
-
-  socket.on('confirmation', function (data) {
-    console.log(data);
-  });
+      // pdf path to be linked to socket from export report
+      var readStream = fs.ReadStream(path.resolve(__dirname + '/pdf/empReport.pdf')), chunks = [],delay = 0;
+      readStream.on('readable', function(){
+        console.log("PDF Loading")
+      });
+      readStream.on('data',function(chunk)
+      {
+        chunks.push(chunk);
+        socket.emit("sendPDF",chunk);
+      });
+      readStream.on('end',function() {
+        console.log("PDF loaded");
+      });
 });
 
 app.engine('ejs', require('ejs').renderFile);
